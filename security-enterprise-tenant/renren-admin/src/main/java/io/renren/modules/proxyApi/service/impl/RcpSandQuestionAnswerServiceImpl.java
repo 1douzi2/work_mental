@@ -40,8 +40,8 @@ public class RcpSandQuestionAnswerServiceImpl extends CrudServiceImpl<RcpSandQue
 
 
     @Override
-    public List<RcpSandQuestionAnswerEntity> sandQuestionAnswer() {
-        List<RcpSandQuestionAnswerEntity> answer=rcpSandQuestionAnswerDao.selectAnsewr();
+    public List<RcpSandQuestionAnswerEntity> sandQuestionAnswer(String userName) {
+        List<RcpSandQuestionAnswerEntity> answer=rcpSandQuestionAnswerDao.selectAnsewr(userName);
         return answer;
     }
 }

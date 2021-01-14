@@ -14,5 +14,8 @@ import java.util.List;
 */
 @Mapper
 public interface RcpSandPicDao extends BaseDao<RcpSandPicEntity> {
-	List<RcpSandPicEntity> selectPic();
+//	String name="admin";
+	List<RcpSandPicEntity> selectPic(String userName);
+
+
 }

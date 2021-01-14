@@ -10,9 +10,9 @@ import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.DefaultGroup;
 import io.renren.common.validator.group.UpdateGroup;
-import io.renren.modules.proxyApi.dto.RcpSandSceneDTO;
-import io.renren.modules.proxyApi.excel.RcpSandSceneExcel;
-import io.renren.modules.proxyApi.service.RcpSandSceneService;
+import io.renren.modules.proxyApi.dto.RcpSandModelChooseDTO;
+import io.renren.modules.proxyApi.excel.RcpSandModelChooseExcel;
+import io.renren.modules.proxyApi.service.RcpSandModelChooseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,21 +23,23 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 
 /**
-* 沙盘场景维护
+* 沙具模型选择
 *
 * @author Mark sunlightcs@gmail.com
-* @since 3.0 2020-12-28
+* @since 3.0 2021-01-12
 */
 @RestController
-@RequestMapping("proxyApi/rcpsandscene")
-@Api(tags="沙盘场景维护")
-public class RcpSandSceneController {
+@RequestMapping("proxyApi/rcpsandmodelchoose")
+@Api(tags="沙具模型选择")
+@CrossOrigin
+public class RcpSandModelChooseController {
     @Autowired
-    private RcpSandSceneService rcpSandSceneService;
+    private RcpSandModelChooseService rcpSandModelChooseService;
 
     @GetMapping("page")
     @ApiOperation("分页")
@@ -47,32 +49,31 @@ public class RcpSandSceneController {
         @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
         @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
     })
-    @RequiresPermissions("proxyApi:rcpsandscene:page")
-    public Result<PageData<RcpSandSceneDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
-        PageData<RcpSandSceneDTO> page = rcpSandSceneService.page(params);
+    @RequiresPermissions("proxyApi:rcpsandmodelchoose:page")
+    public Result<PageData<RcpSandModelChooseDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+        PageData<RcpSandModelChooseDTO> page = rcpSandModelChooseService.page(params);
 
-
-        return new Result<PageData<RcpSandSceneDTO>>().ok(page);
+        return new Result<PageData<RcpSandModelChooseDTO>>().ok(page);
     }
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("proxyApi:rcpsandscene:info")
-    public Result<RcpSandSceneDTO> get(@PathVariable("id") Long id){
-        RcpSandSceneDTO data = rcpSandSceneService.get(id);
+    @RequiresPermissions("proxyApi:rcpsandmodelchoose:info")
+    public Result<RcpSandModelChooseDTO> get(@PathVariable("id") Long id){
+        RcpSandModelChooseDTO data = rcpSandModelChooseService.get(id);
 
-        return new Result<RcpSandSceneDTO>().ok(data);
+        return new Result<RcpSandModelChooseDTO>().ok(data);
     }
 
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("proxyApi:rcpsandscene:save")
-    public Result save(@RequestBody RcpSandSceneDTO dto){
+    @RequiresPermissions("proxyApi:rcpsandmodelchoose:save")
+    public Result save(@RequestBody RcpSandModelChooseDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 
-        rcpSandSceneService.save(dto);
+        rcpSandModelChooseService.save(dto);
 
         return new Result();
     }
@@ -80,12 +81,12 @@ public class RcpSandSceneController {
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("proxyApi:rcpsandscene:update")
-    public Result update(@RequestBody RcpSandSceneDTO dto){
+    @RequiresPermissions("proxyApi:rcpsandmodelchoose:update")
+    public Result update(@RequestBody RcpSandModelChooseDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
 
-        rcpSandSceneService.update(dto);
+        rcpSandModelChooseService.update(dto);
 
         return new Result();
     }
@@ -93,12 +94,12 @@ public class RcpSandSceneController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("proxyApi:rcpsandscene:delete")
+    @RequiresPermissions("proxyApi:rcpsandmodelchoose:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
 
-        rcpSandSceneService.delete(ids);
+        rcpSandModelChooseService.delete(ids);
 
         return new Result();
     }
@@ -106,11 +107,11 @@ public class RcpSandSceneController {
     @GetMapping("export")
     @ApiOperation("导出")
     @LogOperation("导出")
-    @RequiresPermissions("proxyApi:rcpsandscene:export")
+    @RequiresPermissions("proxyApi:rcpsandmodelchoose:export")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
-        List<RcpSandSceneDTO> list = rcpSandSceneService.list(params);
+        List<RcpSandModelChooseDTO> list = rcpSandModelChooseService.list(params);
 
-        ExcelUtils.exportExcelToTarget(response, null, "沙盘场景维护", list, RcpSandSceneExcel.class);
+        ExcelUtils.exportExcelToTarget(response, null, "沙具模型选择", list, RcpSandModelChooseExcel.class);
     }
 
 }

@@ -15,5 +15,5 @@ import java.util.List;
 */
 @Mapper
 public interface RcpSandQuestionAnswerDao extends BaseDao<RcpSandQuestionAnswerEntity> {
-    List<RcpSandQuestionAnswerEntity> selectAnsewr();
+    List<RcpSandQuestionAnswerEntity> selectAnsewr(String userName);
 }

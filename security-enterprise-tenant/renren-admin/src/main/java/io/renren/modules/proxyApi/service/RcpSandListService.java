@@ -3,6 +3,7 @@ package io.renren.modules.proxyApi.service;
 import io.renren.common.service.CrudService;
 import io.renren.modules.proxyApi.dto.RcpSandListDTO;
 import io.renren.modules.proxyApi.entity.RcpSandListEntity;
+import io.renren.modules.sys.entity.SysDictDataEntity;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ import java.util.List;
  */
 public interface RcpSandListService extends CrudService<RcpSandListEntity, RcpSandListDTO> {
 //        List<>
+    List<SysDictDataEntity> selectType();
+    List<SysDictDataEntity> selectState();
 }

@@ -15,6 +15,6 @@ import java.util.List;
  */
 public interface RcpSandPicService extends CrudService<RcpSandPicEntity, RcpSandPicDTO> {
 
-        List<RcpSandPicEntity> rcpSandPic();
+        List<RcpSandPicEntity> rcpSandPic(String userName);
 
 }

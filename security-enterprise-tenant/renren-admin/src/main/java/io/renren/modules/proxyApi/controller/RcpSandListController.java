@@ -12,12 +12,15 @@ import io.renren.common.validator.group.DefaultGroup;
 import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.proxyApi.dto.RcpSandListDTO;
 import io.renren.modules.proxyApi.dto.RcpSandPicDTO;
+import io.renren.modules.proxyApi.entity.RcpSandModelChooseEntity;
 import io.renren.modules.proxyApi.entity.RcpSandPicEntity;
 import io.renren.modules.proxyApi.entity.RcpSandQuestionAnswerEntity;
 import io.renren.modules.proxyApi.excel.RcpSandListExcel;
 import io.renren.modules.proxyApi.service.RcpSandListService;
+import io.renren.modules.proxyApi.service.RcpSandModelChooseService;
 import io.renren.modules.proxyApi.service.RcpSandPicService;
 import io.renren.modules.proxyApi.service.RcpSandQuestionAnswerService;
+import io.renren.modules.sys.entity.SysDictDataEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,6 +34,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -49,6 +53,11 @@ public class RcpSandListController {
     private RcpSandPicService rcpSandPicService;
     @Autowired
     private RcpSandQuestionAnswerService rcpSandQuestionAnswerService;
+    @Autowired
+    private RcpSandModelChooseService rcpSandModelChooseService;
+    private String name;
+
+
 
     @GetMapping("page")
     @ApiOperation("分页")
@@ -70,34 +79,54 @@ public class RcpSandListController {
     @RequiresPermissions("proxyApi:rcpsandlist:info")
     public Result<RcpSandListDTO> get(@PathVariable("id") Long id){
         RcpSandListDTO data = rcpSandListService.get(id);
-
+        String names=data.getPerson();
+        name=names;
         return new Result<RcpSandListDTO>().ok(data);
     }
-//
+//取图片
     @GetMapping("getPic")
-    public List<RcpSandPicEntity> getPic()
+    public List<RcpSandPicEntity> getPic( String userName)
     {
-       List<RcpSandPicEntity> pic=rcpSandPicService.rcpSandPic();
+        userName=name;
+
+        List<RcpSandPicEntity> pic=rcpSandPicService.rcpSandPic(userName);
         return pic;
     }
 
-//
+//取问答
     @GetMapping("getAnswer")
-    public List<RcpSandQuestionAnswerEntity> getAnwser()
-    {
-        List<RcpSandQuestionAnswerEntity> answer=rcpSandQuestionAnswerService.sandQuestionAnswer();
-       StringBuffer sb=new StringBuffer();
-        for (RcpSandQuestionAnswerEntity r:answer
-             ) {sb.append(r.getAnswer());
-
-        }
+    public List<RcpSandQuestionAnswerEntity> getAnwser(String userName )
+    {   userName=name;
+        List<RcpSandQuestionAnswerEntity> answer=rcpSandQuestionAnswerService.sandQuestionAnswer(userName);
         return answer;
     }
-//
-//    @GetMapping("getSand")
-//    public List<rcpsand>
-//
+//取沙具
+    @GetMapping("getSand")
+    public List<RcpSandModelChooseEntity> getSand(String userName)
+    {
+        userName=name;
+        List<RcpSandModelChooseEntity> model=rcpSandModelChooseService.sandmodelchoose(userName);
 
+        return  model;
+    }
+//等级
+
+    @GetMapping("getType")
+    public List<SysDictDataEntity> getType()
+    {
+        List<SysDictDataEntity> type=rcpSandListService.selectType();
+
+        return  type;
+    }
+//处理状态
+@GetMapping("getState")
+    public List<SysDictDataEntity> getState()
+    {
+        List<SysDictDataEntity> state=rcpSandListService.selectState();
+
+        return  state;
+    }
+//
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")

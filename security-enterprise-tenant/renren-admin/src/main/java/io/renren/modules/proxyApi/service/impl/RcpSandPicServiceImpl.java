@@ -25,6 +25,7 @@ import java.util.Map;
 public class RcpSandPicServiceImpl extends CrudServiceImpl<RcpSandPicDao, RcpSandPicEntity, RcpSandPicDTO> implements RcpSandPicService {
 @Autowired
   private RcpSandPicDao rcpSandPicDao;
+    private String name="admin";
     @Override
     public QueryWrapper<RcpSandPicEntity> getWrapper(Map<String, Object> params){
         QueryWrapper<RcpSandPicEntity> wrapper = new QueryWrapper<>();
@@ -39,8 +40,8 @@ public class RcpSandPicServiceImpl extends CrudServiceImpl<RcpSandPicDao, RcpSan
 
 //添加的照片
     @Override
-    public List<RcpSandPicEntity> rcpSandPic() {
-        List<RcpSandPicEntity> rcpSandPicEntities =rcpSandPicDao.selectPic();
+    public List<RcpSandPicEntity> rcpSandPic(String userName) {
+        List<RcpSandPicEntity> rcpSandPicEntities =rcpSandPicDao.selectPic(userName);
         return rcpSandPicEntities;
     }
 }

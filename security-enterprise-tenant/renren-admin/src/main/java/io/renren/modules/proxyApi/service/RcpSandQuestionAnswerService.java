@@ -13,5 +13,5 @@ import java.util.List;
  * @since 3.0 2021-01-11
  */
 public interface RcpSandQuestionAnswerService extends CrudService<RcpSandQuestionAnswerEntity, RcpSandQuestionAnswerDTO> {
-        List<RcpSandQuestionAnswerEntity> sandQuestionAnswer();
+        List<RcpSandQuestionAnswerEntity> sandQuestionAnswer( String userName);
 }
